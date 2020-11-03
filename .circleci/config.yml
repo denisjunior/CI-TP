@@ -41,7 +41,28 @@ jobs:
       - checkout
       - restore_cache:
          key: yarn-packages-{{ checksum "yarn.lock"}}
-      - run : yarn test:ci 
+      - run : yarn test:ci
+  database: 
+    docker: 
+      - 
+        image: "circleci/node:12"
+        environnement:
+          DATABASE_URL: postgres://psqluer:psqlpassword@localhost:5432/psdb
+          JWT_SECRET: some string yo want
+          API_PORT: 3000
+          API_HOST: localhost
+          API_PROTOCOL: http
+      -
+        image: "circleci/postgres:9.6.2-alpine"
+        environnement:
+            POSTGRES_USER: psqluser
+            POSTGRES_PASSWORD: psqlpassword
+            POSTGRES_DB: psdb
+    steps: 
+      - checkout
+      - restore_cache:
+         key: yarn-packages-{{ checksum "yarn.lock"}}
+      - run : yarn test:e2e
       
 orbs: 
   node: circleci/node@3.0.0
@@ -53,3 +74,4 @@ workflows:
       - install
       - lint
       - test
+      - database
