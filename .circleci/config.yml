@@ -22,6 +22,27 @@ jobs:
          key: yarn-packages-{{ checksum "yarn.lock"}}
          paths:
           - ./node_modules
+  lint: 
+    docker: 
+      - 
+        image: "circleci/node:12"
+    steps: 
+      - checkout
+      - restore_cache:
+         key: yarn-packages-{{ checksum "yarn.lock"}}
+      - run : yarn lint 
+      - run : yarn format:check
+      
+  test: 
+    docker: 
+      - 
+        image: "circleci/node:12"
+    steps: 
+      - checkout
+      - restore_cache:
+         key: yarn-packages-{{ checksum "yarn.lock"}}
+      - run : yarn test:ci 
+      
 orbs: 
   node: circleci/node@3.0.0
 version: 2.1
@@ -30,3 +51,5 @@ workflows:
     jobs: 
       - hello
       - install
+      - lint
+      - test
