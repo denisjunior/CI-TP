@@ -1,16 +1,14 @@
 jobs: 
   hello: 
     docker: 
-      - 
-        image: "circleci/node:12"
+      - image: "circleci/node:12"
     steps: 
       - checkout
       - run: "echo \"hello world\""
         
   install: 
     docker: 
-      - 
-        image: "circleci/node:12"
+      - image: "circleci/node:12"
     steps:
       - checkout
       - restore_cache:
@@ -23,8 +21,7 @@ jobs:
           - ./node_modules
   lint: 
     docker: 
-      - 
-        image: "circleci/node:12"
+      - image: "circleci/node:12"
     steps: 
       - checkout
       - restore_cache:
@@ -34,8 +31,7 @@ jobs:
       
   test: 
     docker: 
-      - 
-        image: "circleci/node:12"
+      - image: "circleci/node:12"
     steps: 
       - checkout
       - restore_cache:
@@ -43,17 +39,15 @@ jobs:
       - run : yarn test:ci
   database: 
     docker: 
-      - 
-        image: "circleci/node:12"
-        environnement:
+      - image: "circleci/node:12"
+        environment:
           DATABASE_URL: postgres://psqluer:psqlpassword@localhost:5432/psdb
           JWT_SECRET: some string yo want
           API_PORT: 3000
           API_HOST: localhost
           API_PROTOCOL: http
-      -
-        image: "circleci/postgres:9.6.2-alpine"
-        environnement:
+      - image: "circleci/postgres:9.6.2-alpine"
+        environment:
             POSTGRES_USER: psqluser
             POSTGRES_PASSWORD: psqlpassword
             POSTGRES_DB: psdb
