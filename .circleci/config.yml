@@ -7,6 +7,21 @@ jobs:
       - checkout
       - 
         run: "echo \"hello world\""
+        
+  install: 
+    docker: 
+      - 
+        image: "circleci/node:12"
+    steps:
+      - checkout
+      - restore_cache:
+         key: yarn-packages-{{ checksum "yarn.lock"}}
+      - run : yarn global add node-gyp 
+      - run : yarn install
+      - save_cache:
+         key: yarn-packages-{{ checksum "yarn.lock"}}
+         paths:
+          - ./node_modules
 orbs: 
   node: circleci/node@3.0.0
 version: 2.1
@@ -14,3 +29,4 @@ workflows:
   tests: 
     jobs: 
       - hello
+      - install
