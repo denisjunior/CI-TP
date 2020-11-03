@@ -1,0 +1,16 @@
+jobs: 
+  hello: 
+    docker: 
+      - 
+        image: "circleci/node:12"
+    steps: 
+      - checkout
+      - 
+        run: "echo \"hello world\""
+orbs: 
+  node: circleci/node@3.0.0
+version: 2.1
+workflows: 
+  tests: 
+    jobs: 
+      - hello
