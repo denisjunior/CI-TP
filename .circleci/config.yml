@@ -11,10 +11,7 @@ workflows:
       - database
       - build_docker
       - publish_image
-         context:
-          - Docker
-         requires:
-          - build_docker
+
 
 jobs: 
   hello: 
@@ -89,6 +86,10 @@ jobs:
         - paths:
           - ./image.tar
   publish_image:
+    context:
+      - Docker
+    requires:
+      - build_docker
     environment:
       IMAGE_NAME: 150597dal/my-awesome-ci-expr
     docker:
