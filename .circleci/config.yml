@@ -102,7 +102,7 @@ workflows:
       - database
       - build_docker
       - publish_image
-        - context:
-          - DOCKER
-        - requires:
+         context:
+          - DOCKERHUB_PASS
+         requires:
           - build_docker
