@@ -103,6 +103,6 @@ workflows:
       - build_docker
       - publish_image
          context:
-          - DOCKERHUB_PASS
+          - Docker
          requires:
           - build_docker
