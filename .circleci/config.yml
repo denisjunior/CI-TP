@@ -1,3 +1,21 @@
+orbs: 
+  node: circleci/node@3.0.0
+version: 2.1
+workflows: 
+  tests: 
+    jobs: 
+      - hello
+      - install
+      - lint
+      - test
+      - database
+      - build_docker
+      - publish_image
+         context:
+          - Docker
+         requires:
+          - build_docker
+
 jobs: 
   hello: 
     docker: 
@@ -89,20 +107,4 @@ jobs:
           docker push $IMAGE_NAME:$CIRCLE_BUILD_NUM
           docker push $IMAGE_NAME:latest
       
-orbs: 
-  node: circleci/node@3.0.0
-version: 2.1
-workflows: 
-  tests: 
-    jobs: 
-      - hello
-      - install
-      - lint
-      - test
-      - database
-      - build_docker
-      - publish_image
-         context:
-          - Docker
-         requires:
-          - build_docker
+
