@@ -9,8 +9,7 @@ workflows:
       - lint
       - test
       - database
-      - build_docker
-      - publish_image
+      
 
 
 jobs: 
@@ -71,37 +70,6 @@ jobs:
       - restore_cache:
          key: yarn-packages-{{ checksum "yarn.lock"}}
       - run : yarn test:e2e
-  build_docker:
-    environment:
-      IMAGE_NAME: 150597dal/my-awesome-ci-expr
-    docker:
-      - image: circleci/buildpack-deps:stretch
-    steps:
-      - checkout
-      - setup_remot_docker
-      - run: docker image build --tag $IMAGE_NAME:app .
-      - run: docker save -o image.tar $IMAGE_NAME
-      - persist_to_workspace:
-        - root: .
-        - paths:
-          - ./image.tar
-  publish_image:
-    environment:
-      IMAGE_NAME: 150597dal/my-awesome-ci-expr
-    docker:
-      - image: circleci/buildpack-deps:stretch
-    steps:
-      - attache_workspace:
-        at: /tmp/workspace
-      - setup_remote_docker
-      - run: docker load -i /tmp/workspace/image.tar
-      - run:
-        name: Login and Publish to Docker Hub
-        commande:
-          echo "$DOCKERHUB_PASS" | docker login --username 150597dal --password-stdin
-          docker tag $IMAGE_NAME:app $IMAGE_NAME:$CIRCLE_BUILD_NUM
-          docker tag $IMAGE_NAME:app $IMAGE_NAME:latest
-          docker push $IMAGE_NAME:$CIRCLE_BUILD_NUM
-          docker push $IMAGE_NAME:latest
+ 
       
 
