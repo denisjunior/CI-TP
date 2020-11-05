@@ -102,4 +102,7 @@ workflows:
       - database
       - build_docker
       - publish_image
-       
+          context:
+            - DOCKER
+          requires:
+            - build_docker
