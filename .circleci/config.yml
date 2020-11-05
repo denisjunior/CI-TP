@@ -80,7 +80,7 @@ jobs:
         at: /tmp/workspace
       - setup_remote_docker
       - run: docker load -i /tmp/workspace/image.tar
-      -run:
+      - run:
         name: Login and Publish to Docker Hub
         commande:
           echo "$DOCKERHUB_PASS" | docker login --username 150597dal --password-stdin
